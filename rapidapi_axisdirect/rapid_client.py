@@ -24,31 +24,30 @@ class AxisAPIClient(object):
     """
     The Axis Direct API Client wrapper class.
 
-    In production, you may initialise a single instance of this class per `api_key`.
     """
 
-    AXIS_HANDSHAKE_ROUTE = "https://welcome-api.axisdirect.in/handshake"
-    AXIS_SSO_INITIATE_ROUTE = "https://welcome-api.axisdirect.in/sso/initiate"
-    AXIS_AUTHENTICATE_ROUTE = "https://welcome-api.axisdirect.in/sso/authenticate"
-    AXIS_REFRESH_TOKEN_ROUTE = "https://welcome-api.axisdirect.in/v1/handshake/get-auth-token"
-    AXIS_GET_PROFILE_ROUTE = "https://invest-api.axisdirect.in/customer-profile/details"
-    AXIS_SECURITY_MASTER_ROUTE = "https://invest-static-assets.axisdirect.in/TELESCOPE/security_master_web/SecurityMaster.csv"
-    AXIS_SEARCH_SCRIP_ROUTE = "https://invest-api.axisdirect.in/securitymaster/security-masters/{scriptId}"
-    AXIS_MARGIN_ROUTE = "https://funds-api.axisdirect.in/funds/inquiry/get-limits"
-    AXIS_MARGIN_REQUIRED_ROUTE = "https://funds-api.axisdirect.in/funds/inquiry/get-limits"
-    AXIS_BROKERAGE_ROUTE = "https://funds-api.axisdirect.in/funds/inquiry/get-order-brokerage"
-    AXIS_ORDER_PLACE_ROUTE = "https://invest-api.axisdirect.in/trading/orders/place-order"
-    AXIS_ORDER_MODIFY_ROUTE = "https://invest-api.axisdirect.in/trading/orders/modify-order"
-    AXIS_ORDER_CANCEL_ROUTE = "https://invest-api.axisdirect.in/trading/orders/cancel-order"
-    AXIS_MARKET_STATUS_ROUTE = "https://invest-api.axisdirect.in/markettracking/tracking/get-market-status"
-    AXIS_QUOTES_ROUTE = "https://invest-api.axisdirect.in/feedbroadcast/multi-touch-line"
-    AXIS_BEST_FIVE_MD_ROUTE = "https://invest-api.axisdirect.in/feedbroadcast/best-five"
-    AXIS_ORDER_BOOK_ROUTE = "https://invest-api.axisdirect.in/trading/orders/get-order-book"
-    AXIS_ORDER_HISTORY_ROUTE = "https://invest-api.axisdirect.in/trading/orders/{orderID}/oms-order-id"
-    AXIS_POSITIONS_ROUTE = "https://invest-api.axisdirect.in/trading/portfolio/get-positions"
-    AXIS_TRADE_BOOK_ROUTE = "https://invest-api.axisdirect.in/trading/trades/get-trade-book"
-    AXIS_HOLDINGS_ROUTE = "https://invest-api.axisdirect.in/trading/portfolio/get-holdings"
-    AXIS_HOLDINGS_SUMMARY_ROUTE = "https://invest-api.axisdirect.in/trading/portfolio/get-holdings-summary"
+    _HANDSHAKE_ROUTE = "https://welcome-api.axisdirect.in/handshake"
+    _SSO_INITIATE_ROUTE = "https://welcome-api.axisdirect.in/sso/initiate"
+    _AUTHENTICATE_ROUTE = "https://welcome-api.axisdirect.in/sso/authenticate"
+    _REFRESH_TOKEN_ROUTE = "https://welcome-api.axisdirect.in/v1/handshake/get-auth-token"
+    _GET_PROFILE_ROUTE = "https://invest-api.axisdirect.in/customer-profile/details"
+    _SECURITY_MASTER_ROUTE = "https://invest-static-assets.axisdirect.in/TELESCOPE/security_master_web/SecurityMaster.csv"
+    _SEARCH_SCRIP_ROUTE = "https://invest-api.axisdirect.in/securitymaster/security-masters/{scriptId}"
+    _MARGIN_ROUTE = "https://funds-api.axisdirect.in/funds/inquiry/get-limits"
+    _MARGIN_REQUIRED_ROUTE = "https://funds-api.axisdirect.in/funds/inquiry/get-limits"
+    _BROKERAGE_ROUTE = "https://funds-api.axisdirect.in/funds/inquiry/get-order-brokerage"
+    _ORDER_PLACE_ROUTE = "https://invest-api.axisdirect.in/trading/orders/place-order"
+    _ORDER_MODIFY_ROUTE = "https://invest-api.axisdirect.in/trading/orders/modify-order"
+    _ORDER_CANCEL_ROUTE = "https://invest-api.axisdirect.in/trading/orders/cancel-order"
+    _MARKET_STATUS_ROUTE = "https://invest-api.axisdirect.in/markettracking/tracking/get-market-status"
+    _QUOTES_ROUTE = "https://invest-api.axisdirect.in/feedbroadcast/multi-touch-line"
+    _BEST_FIVE_MD_ROUTE = "https://invest-api.axisdirect.in/feedbroadcast/best-five"
+    _ORDER_BOOK_ROUTE = "https://invest-api.axisdirect.in/trading/orders/get-order-book"
+    _ORDER_HISTORY_ROUTE = "https://invest-api.axisdirect.in/trading/orders/{orderID}/oms-order-id"
+    _POSITIONS_ROUTE = "https://invest-api.axisdirect.in/trading/portfolio/get-positions"
+    _TRADE_BOOK_ROUTE = "https://invest-api.axisdirect.in/trading/trades/get-trade-book"
+    _HOLDINGS_ROUTE = "https://invest-api.axisdirect.in/trading/portfolio/get-holdings"
+    _HOLDINGS_SUMMARY_ROUTE = "https://invest-api.axisdirect.in/trading/portfolio/get-holdings-summary"
 
     def __init__(self, client_id, authorization_key, debug=False):
         """
@@ -76,7 +75,7 @@ class AxisAPIClient(object):
         self.sub_account_id = sub_account_id
         self.auth_token = auth_token
 
-    def get_headers(self, api_encryption_key=None):
+    def _get_headers(self, api_encryption_key=None):
         """
             Prepare the headers for the request
         """
@@ -93,16 +92,16 @@ class AxisAPIClient(object):
             headers['x-authtoken'] = self.auth_token
         return headers
 
-    def get_public_key(self):
+    def _get_public_key(self):
         """
         Generate Public Key.
 
         """
 
-        headers = self.get_headers()
+        headers = self._get_headers()
 
         response = self.session.post(
-            self.AXIS_HANDSHAKE_ROUTE, headers=headers)
+            self._HANDSHAKE_ROUTE, headers=headers)
 
         response_data = response.json()
 
@@ -133,7 +132,7 @@ class AxisAPIClient(object):
                 "name": name
             }
         }
-        response = self._post(self.AXIS_SSO_INITIATE_ROUTE, params=payload)
+        response = self._post(self._SSO_INITIATE_ROUTE, params=payload)
         return response
 
     def authenticate_sso(self, sso_id):
@@ -147,7 +146,7 @@ class AxisAPIClient(object):
         }
 
         decrypted_data = self._post(
-            self.AXIS_AUTHENTICATE_ROUTE, params=payload)
+            self._AUTHENTICATE_ROUTE, params=payload)
 
         # Extract and store the tokens and sub_account_id
         if decrypted_data['statusCode'] == 200:
@@ -169,7 +168,7 @@ class AxisAPIClient(object):
         }
 
         decrypted_data = self._post(
-            self.AXIS_REFRESH_TOKEN_ROUTE, params=payload)
+            self._REFRESH_TOKEN_ROUTE, params=payload)
 
         # Update the auth_token with the new one received
         if decrypted_data['statusCode'] == 200 and 'authToken' in decrypted_data['data']:
@@ -181,19 +180,9 @@ class AxisAPIClient(object):
         """Get the profile details of a logged in user."""
 
         if self.auth_token is None:
-            return exc.TokenException('`auth_token` should not be None. Complete login flow.')
+            raise exc.TokenException('`auth_token` should not be None. Complete login flow.')
 
-        public_key = self.get_public_key()
-        api_encryption_key = encrypt_rsa(self.secret_key, public_key)
-
-        headers = self.get_headers(api_encryption_key)
-        response_data = self.session.get(
-            self.AXIS_GET_PROFILE_ROUTE, headers=headers).json()
-
-        decrypted_data = decrypt_data(
-            response_data['data']['payload'],
-            self.secret_key
-        )
+        decrypted_data = self._get(self._GET_PROFILE_ROUTE)
 
         return decrypted_data
 
@@ -201,7 +190,7 @@ class AxisAPIClient(object):
         """
         Downloads the Security Master CSV file.
         """
-        url = self.AXIS_SECURITY_MASTER_ROUTE
+        url = self._SECURITY_MASTER_ROUTE
         response = self.session.get(url)
 
         return response.status_code
@@ -210,7 +199,7 @@ class AxisAPIClient(object):
         """
         Searches for a scrip using the provided script ID.
         """
-        url = self.AXIS_SEARCH_SCRIP_ROUTE.format(scriptId=script_id)
+        url = self._SEARCH_SCRIP_ROUTE.format(scriptId=script_id)
         decrypted_data = self._get(url)
         return decrypted_data
 
@@ -224,7 +213,7 @@ class AxisAPIClient(object):
         payload = {
             "segment": segment
         }
-        decrypted_data = self._post(self.AXIS_MARGIN_ROUTE, payload)
+        decrypted_data = self._post(self._MARGIN_ROUTE, payload)
         return decrypted_data
 
     def get_margin_required(self, script_id, exchange, segment, transaction_type, product_type, order_price, order_quantity, trigger_price):
@@ -241,7 +230,7 @@ class AxisAPIClient(object):
             "productType": product_type,
             "triggerPrice": trigger_price,
         }
-        decrypted_data = self._post(self.AXIS_MARGIN_REQUIRED_ROUTE, payload)
+        decrypted_data = self._post(self._MARGIN_REQUIRED_ROUTE, payload)
 
         # headers['x-service-name'] = ''
         return decrypted_data
@@ -259,7 +248,7 @@ class AxisAPIClient(object):
             "productType": product_type,
             "transactionType": transaction_type,
         }
-        decrypted_data = self._post(self.AXIS_BROKERAGE_ROUTE, payload)
+        decrypted_data = self._post(self._BROKERAGE_ROUTE, payload)
 
         return decrypted_data
 
@@ -301,7 +290,7 @@ class AxisAPIClient(object):
             "validityDays": validity_days,
             "isAmo": is_amo,
         }
-        decrypted_data = self._post(self.AXIS_ORDER_PLACE_ROUTE, payload)
+        decrypted_data = self._post(self._ORDER_PLACE_ROUTE, payload)
 
         return decrypted_data
 
@@ -341,7 +330,7 @@ class AxisAPIClient(object):
             "tradedQty": traded_quantity,
             "omsOrderSerialNumber": oms_order_serial_number,
         }
-        decrypted_data = self._post(self.AXIS_ORDER_MODIFY_ROUTE, payload)
+        decrypted_data = self._post(self._ORDER_MODIFY_ROUTE, payload)
 
         return decrypted_data
 
@@ -362,7 +351,7 @@ class AxisAPIClient(object):
             "openQty": open_quantity,
             "omsOrderSerialNumber": oms_order_serial_number,
         }
-        decrypted_data = self._post(self.AXIS_ORDER_CANCEL_ROUTE, payload)
+        decrypted_data = self._post(self._ORDER_CANCEL_ROUTE, payload)
 
         return decrypted_data
 
@@ -377,7 +366,7 @@ class AxisAPIClient(object):
             "marketStatus": "Open"
         }]
         """
-        decrypted_data = self._get(self.AXIS_MARKET_STATUS_ROUTE)
+        decrypted_data = self._get(self._MARKET_STATUS_ROUTE)
         return decrypted_data
 
     def get_quotes(self, script_ids: list):
@@ -390,7 +379,7 @@ class AxisAPIClient(object):
         payload = {
             "securities": [{"scriptId": script_id} for script_id in script_ids]
         }
-        decrypted_data = self._post(self.AXIS_QUOTES_ROUTE, payload)
+        decrypted_data = self._post(self._QUOTES_ROUTE, payload)
 
         return decrypted_data
 
@@ -402,7 +391,7 @@ class AxisAPIClient(object):
             "scriptId": script_id
         }
 
-        decrypted_data = self._post(self.AXIS_BEST_FIVE_MD_ROUTE, payload)
+        decrypted_data = self._post(self._BEST_FIVE_MD_ROUTE, payload)
 
         return decrypted_data
 
@@ -416,7 +405,7 @@ class AxisAPIClient(object):
             "omsOrderId": oms_order_id,
             "orderStatus": order_status
         }
-        decrypted_data = self._post(self.AXIS_ORDER_BOOK_ROUTE, payload)
+        decrypted_data = self._post(self._ORDER_BOOK_ROUTE, payload)
 
         return decrypted_data
 
@@ -428,7 +417,7 @@ class AxisAPIClient(object):
         payload = {
             "segment": segment,
         }
-        url = self.AXIS_ORDER_HISTORY_ROUTE.format(orderId=order_id)
+        url = self._ORDER_HISTORY_ROUTE.format(orderId=order_id)
         decrypted_data = self._post(url, payload)
 
         return decrypted_data
@@ -441,7 +430,7 @@ class AxisAPIClient(object):
             "interop": interop,
             "type": type,
         }
-        decrypted_data = self._post(self.AXIS_POSITIONS_ROUTE, payload)
+        decrypted_data = self._post(self._POSITIONS_ROUTE, payload)
 
         return decrypted_data
 
@@ -452,7 +441,7 @@ class AxisAPIClient(object):
             "segment": segment,
             "orderDetails": [{"omsOrderId": oms_order_id} for oms_order_id in order_ids]
         }
-        decrypted_data = self._post(self.AXIS_TRADE_BOOK_ROUTE, payload)
+        decrypted_data = self._post(self._TRADE_BOOK_ROUTE, payload)
 
         return decrypted_data
 
@@ -463,7 +452,7 @@ class AxisAPIClient(object):
 
         payload = {"segment": segment}
 
-        decrypted_data = self._post(self.AXIS_HOLDINGS_ROUTE, payload)
+        decrypted_data = self._post(self._HOLDINGS_ROUTE, payload)
 
         return decrypted_data
 
@@ -473,7 +462,7 @@ class AxisAPIClient(object):
         """
 
         payload = {"segment": segment}
-        decrypted_data = self._post(self.AXIS_HOLDINGS_SUMMARY_ROUTE, payload)
+        decrypted_data = self._post(self._HOLDINGS_SUMMARY_ROUTE, payload)
 
         return decrypted_data
 
@@ -497,13 +486,13 @@ class AxisAPIClient(object):
         """Make an HTTP request."""
 
         # Get public key
-        public_key = self.get_public_key()
+        public_key = self._get_public_key()
 
         # Encrypt public key
         api_encryption_key = encrypt_rsa(self.secret_key, public_key)
 
         # Set custom headers
-        headers = self.get_headers(api_encryption_key)
+        headers = self._get_headers(api_encryption_key)
 
         if self.debug:
             log.debug("Request: {method} {url} {params} {headers}".format(
