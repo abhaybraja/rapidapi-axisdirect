@@ -37,12 +37,8 @@ setup(
         "Topic :: Axisdirect :: RAPID API",
     ],
     install_requires=[
-        "service_identity>=18.1.0",
-        "requests>=2.18.4",
-        "six>=1.11.0",
-        "pyOpenSSL>=17.5.0",
-        "python-dateutil>=2.6.1",
-        "autobahn[twisted]==19.11.2"
+        "requests>=2.32.3",
+        "pycryptodome>=3.20.0",
     ],
     
 )

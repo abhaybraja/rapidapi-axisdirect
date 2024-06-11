@@ -12,7 +12,7 @@ import requests
 import os
 import logging
 
-from utils import decrypt_data, encrypt_aes, encrypt_rsa
+from rapidapi_axisdirect.utils import decrypt_data, encrypt_aes, encrypt_rsa
 
 from .__version__ import __version__, __title__
 from rapidapi_axisdirect import exceptions as exc
@@ -181,7 +181,7 @@ class AxisAPIClient(object):
         """Get the profile details of a logged in user."""
 
         if self.auth_token is None:
-            return exc.TokenException('')
+            return exc.TokenException('`auth_token` should not be None. Complete login flow.')
 
         public_key = self.get_public_key()
         api_encryption_key = encrypt_rsa(self.secret_key, public_key)
