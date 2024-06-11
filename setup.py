@@ -27,14 +27,16 @@ setup(
     license=about["__license__"],
     packages=["rapidapi_axisdirect"],
     classifiers=[
-        "Intended Audience :: Financial Industry",
         "Intended Audience :: Developers",
-        "Intended Audience :: Stock Market",
+        "Intended Audience :: Financial and Insurance Industry",
         "Natural Language :: English",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
-        "Topic :: Financial :: Investment :: Stock Market",
-        "Topic :: Axisdirect :: RAPID API",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Topic :: Office/Business :: Financial",
+        "Topic :: Software Development :: Libraries :: Python Modules"
     ],
     install_requires=[
         "requests>=2.32.3",

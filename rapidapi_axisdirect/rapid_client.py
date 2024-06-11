@@ -154,7 +154,7 @@ class AxisAPIClient(object):
             self.auth_token = decrypted_data['data']['authToken']['token']
             self.refresh_token = decrypted_data['data']['refreshToken']['token']
 
-        return decrypted_data
+        return decrypted_data['data']
 
     def refresh_auth_token(self, refresh_token: str):
         """
@@ -256,7 +256,7 @@ class AxisAPIClient(object):
                     script_id,
                     exchange,
                     transaction_type,
-                    total_quantity,
+                    quantity,
                     segment,
                     order_type,
                     order_price=0,
@@ -282,7 +282,7 @@ class AxisAPIClient(object):
             "transactionType": transaction_type,
             "productType": product_type,
             "orderType": order_type,
-            "totalQty": total_quantity,
+            "totalQty": quantity,
             "disclosedQty": disclosed_quantity,
             "orderPrice": order_price,
             "triggerPrice": trigger_price,
